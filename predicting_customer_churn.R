@@ -32,13 +32,15 @@ test <- data_target[indx == 2, ]
 test <- rbind(test,cust_stats[c(354,672,5203),])
 View(test)
 
-logitModel <- glm(Churn ~ ., data = train, family = "binomial") #a logistic regression model for target variable churn, including all the other variables in the data set
+logitModel <- glm(Churn ~ ., data = train, family = "binomial") 
+#a logistic regression model for target variable churn, including all the other variables in the data set
 summary(logitModel) #we see that most variables have a very high p value and hence are not significant. So we will exclude these variables and inclue 
 #just Days_Since_LastLogin_0-1,SupportCases_0-1,CHIScore_0-1,CHIScore_Month0,Age,ID
 
 
 logitModel_new <- glm(Churn ~ ID + Age + CHIScore_Month0 + CHIScore_0_to_1 + Days_Since_LastLogin_0_to_1 + Views_0_to_1 + SupportCases_0_to_1 , data = train, family = "binomial")
-summary(logitModel_new) #new model with variables that have a high significance
+summary(logitModel_new) 
+#new model with variables that have a high significance
 
 options(scipen = 99)
 Pred <- predict(logitModel_new, newdata = test, type = "response") #predicted churn for test data 
@@ -61,7 +63,8 @@ Pred[672]
 Pred[354]
 Pred[5203]
 
-d<-sort(Pred, decreasing = TRUE) #to obtain 100 customers with highest probabilities of churning
+d<-sort(Pred, decreasing = TRUE) 
+#to obtain 100 customers with highest probabilities of churning
 d
 head(d,100)
 
